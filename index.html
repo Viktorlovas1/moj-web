@@ -83,21 +83,7 @@ document.getElementById("content").style.display = "block";
 } else {
 alert("Zlé heslo");
 }
-}
 </script>
-<script>
-fetch("/.netlify/functions/track-visit", {
-  method: "POST",
-  body: JSON.stringify({
-    page: window.location.pathname,
-    time: new Date().toISOString(),
-    referrer: document.referrer || "direct",
-    screen: window.innerWidth + "x" + window.innerHeight
-  })
-})
-.then(res => res.json())
-.then(data => console.log("OK:", data))
-.catch(err => console.error("ERROR:", err));
-</script>
+
 </body>
 </html>
