@@ -1,61 +1,106 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Be Unreadable</title>
 
 <style>
-body {
-margin: 0;
-font-family: Georgia, serif;
-background: #050505;
-color: #fff;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
+* {
+  box-sizing: border-box;
 }
 
-.box {
-text-align: center;
-max-width: 400px;
-width: 90%;
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  color: #fff;
+  background:
+    radial-gradient(circle at 30% 50%, rgba(90,90,90,0.45), transparent 35%),
+    linear-gradient(115deg, #000 0%, #050505 38%, #2a2a2a 62%, #777 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 42%, rgba(120,120,120,0.25) 100%);
+  z-index: -1;
+}
+
+.box,
+.content {
+  text-align: center;
+  max-width: 460px;
+  width: 90%;
+  padding: 36px 24px;
 }
 
 h1 {
-font-size: 32px;
-margin-bottom: 20px;
+  font-size: clamp(38px, 8vw, 72px);
+  letter-spacing: 2px;
+  margin: 0 0 12px;
+  font-weight: 400;
+}
+
+.tagline {
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.62);
+  margin-bottom: 34px;
 }
 
 input {
-width: 100%;
-padding: 12px;
-background: transparent;
-border: 1px solid #444;
-color: #fff;
-margin-bottom: 15px;
-font-size: 16px;
+  width: 100%;
+  padding: 15px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: #fff;
+  margin-bottom: 14px;
+  font-size: 15px;
+  outline: none;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+input:focus {
+  border-color: rgba(255,255,255,0.9);
 }
 
 button {
-width: 100%;
-padding: 12px;
-background: #fff;
-color: #000;
-border: none;
-cursor: pointer;
-font-weight: bold;
+  width: 100%;
+  padding: 15px;
+  background: #fff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.hidden {
-display: none;
+button:hover {
+  background: #d8d8d8;
 }
 
 .content {
-display: none;
-padding: 40px;
-text-align: center;
+  display: none;
+}
+
+.content p {
+  color: rgba(255,255,255,0.72);
+  line-height: 1.7;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -63,25 +108,33 @@ text-align: center;
 <body>
 
 <div class="box" id="loginBox">
-<h1>Be Unreadable</h1>
-<input type="password" id="password" placeholder="Enter password">
-<button onclick="checkPassword()">Enter</button>
+  <h1>Be Unreadable</h1>
+  <div class="tagline">Data over algorithm</div>
+
+  <input type="password" id="password" placeholder="Access code">
+  <button onclick="checkPassword()">Unlock</button>
 </div>
 
 <div class="content" id="content">
-<h1>Zachovaj si identitu.</h1>
-<p>Be Unreadable je o tom nebyť čitateľný systémom.</p>
+  <h1>Be Unreadable</h1>
+  <div class="tagline">Data over algorithm</div>
+  <p>
+    You are not data.<br>
+    You are not a pattern.<br><br>
+    You are what they cannot predict.
+  </p>
 </div>
 
 <script>
 function checkPassword() {
-const input = document.getElementById("password").value;
+  const input = document.getElementById("password").value;
 
-if (input === "unreadable") {
-document.getElementById("loginBox").style.display = "none";
-document.getElementById("content").style.display = "block";
-} else {
-alert("Zlé heslo");
+  if (input === "unreadable") {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("content").style.display = "block";
+  } else {
+    alert("Wrong access code");
+  }
 }
 </script>
 
