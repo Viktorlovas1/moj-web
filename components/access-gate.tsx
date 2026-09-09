@@ -3,6 +3,8 @@ import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+const PRIVACY_POLICY_URL = "https://beunreadable.myshopify.com/policies/privacy-policy";
+
 export function EarlyAccessGate() {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -57,7 +59,7 @@ export function EarlyAccessGate() {
         <p aria-live="polite" style={{ minHeight: 18, margin: "14px 0 0", color: "rgba(255,255,255,.62)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 10 }}>{message}</p>
       </section>
       <footer style={{ width: "100%", textAlign: "center", paddingTop: 28 }}>
-        <a href="/datenschutz" style={{ color: "rgba(255,255,255,.38)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 8, letterSpacing: ".2em", textDecorationColor: "rgba(255,255,255,.2)", textUnderlineOffset: 4, textTransform: "uppercase" }}>Datenschutz</a>
+        <a href={PRIVACY_POLICY_URL} style={{ color: "rgba(255,255,255,.38)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 8, letterSpacing: ".2em", textDecorationColor: "rgba(255,255,255,.2)", textUnderlineOffset: 4, textTransform: "uppercase" }}>Datenschutz</a>
       </footer>
     </main>
   );
