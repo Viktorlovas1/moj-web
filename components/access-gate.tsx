@@ -36,15 +36,79 @@ export function EarlyAccessGate() {
   }
 
   return (
-    <main className="cinematic-background gate-shell">
-      <section className="gate-box" aria-labelledby="gate-title">
-        <h1 className="brand-title" id="gate-title">Be Unreadable</h1>
-        <p className="brand-tagline">Identity Over Data</p>
+    <main className="cinematic-background gate-shell" style={{ padding: "28px 20px" }}>
+      <section
+        aria-labelledby="gate-title"
+        style={{
+          width: "min(92vw, 430px)",
+          margin: "0 auto",
+          textAlign: "center",
+        }}
+      >
+        <div style={{ marginBottom: 34 }}>
+          <h1
+            id="gate-title"
+            style={{
+              margin: 0,
+              color: "#fff",
+              fontFamily: 'Georgia, "Times New Roman", serif',
+              fontSize: "clamp(44px, 11vw, 64px)",
+              fontWeight: 400,
+              letterSpacing: "0.025em",
+              lineHeight: 1.02,
+            }}
+          >
+            Be Unreadable
+          </h1>
+          <p
+            style={{
+              margin: "16px 0 0",
+              color: "rgba(255,255,255,.58)",
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: 11,
+              letterSpacing: "0.34em",
+              textTransform: "uppercase",
+            }}
+          >
+            Identity Over Data
+          </p>
+        </div>
 
-        <div>
-          <p style={{ margin: "0 0 14px", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,.72)" }}>
+        <div
+          style={{
+            padding: "26px 22px 22px",
+            border: "1px solid rgba(255,255,255,.14)",
+            background: "rgba(0,0,0,.28)",
+            boxShadow: "0 24px 70px rgba(0,0,0,.28)",
+            backdropFilter: "blur(10px)",
+          }}
+        >
+          <p
+            style={{
+              margin: "0 0 8px",
+              color: "rgba(255,255,255,.88)",
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+            }}
+          >
             Early Access
           </p>
+          <p
+            style={{
+              margin: "0 auto 22px",
+              maxWidth: 300,
+              color: "rgba(255,255,255,.48)",
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: 12,
+              lineHeight: 1.55,
+            }}
+          >
+            Be first to know when the first drop opens.
+          </p>
+
           <form onSubmit={submitEarlyAccess}>
             <label className="sr-only" htmlFor="early-access-email">Email address</label>
             <Input
@@ -56,17 +120,82 @@ export function EarlyAccessGate() {
               required
               type="email"
               value={email}
+              style={{
+                minHeight: 54,
+                marginBottom: 12,
+                borderColor: "rgba(255,255,255,.22)",
+                background: "rgba(255,255,255,.035)",
+                fontSize: 14,
+              }}
             />
-            <label style={{ display: "flex", gap: 10, alignItems: "flex-start", margin: "0 0 14px", color: "rgba(255,255,255,.6)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 10, lineHeight: 1.5, textAlign: "left" }}>
-              <input checked={consent} name="consent" onChange={(event) => setConsent(event.target.checked)} required type="checkbox" value="yes" style={{ marginTop: 2 }} />
+
+            <label
+              style={{
+                display: "grid",
+                gridTemplateColumns: "18px 1fr",
+                gap: 10,
+                alignItems: "start",
+                margin: "2px 2px 18px",
+                color: "rgba(255,255,255,.48)",
+                fontFamily: "Arial, Helvetica, sans-serif",
+                fontSize: 10,
+                lineHeight: 1.5,
+                textAlign: "left",
+              }}
+            >
+              <input
+                checked={consent}
+                name="consent"
+                onChange={(event) => setConsent(event.target.checked)}
+                required
+                type="checkbox"
+                value="yes"
+                style={{ width: 16, height: 16, margin: "1px 0 0" }}
+              />
               <span>I agree to receive Be Unreadable Early Access updates by email.</span>
             </label>
-            <Button className="monochrome-button" disabled={submitting} type="submit">{submitting ? "Joining" : "Join Early Access"}</Button>
+
+            <Button
+              className="monochrome-button"
+              disabled={submitting}
+              type="submit"
+              style={{ minHeight: 54, fontSize: 12, letterSpacing: "0.22em" }}
+            >
+              {submitting ? "Joining" : "Join Early Access"}
+            </Button>
           </form>
-          <p aria-live="polite" className="gate-error">{message}</p>
+
+          <p
+            aria-live="polite"
+            style={{
+              minHeight: 18,
+              margin: "14px 0 0",
+              color: "rgba(255,255,255,.62)",
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: 10,
+              letterSpacing: "0.04em",
+            }}
+          >
+            {message}
+          </p>
         </div>
 
-        <a className="gate-legal-link" href="/datenschutz">Datenschutz</a>
+        <a
+          href="/datenschutz"
+          style={{
+            display: "inline-block",
+            marginTop: 22,
+            color: "rgba(255,255,255,.34)",
+            fontFamily: "Arial, Helvetica, sans-serif",
+            fontSize: 8,
+            letterSpacing: "0.2em",
+            textDecorationColor: "rgba(255,255,255,.2)",
+            textUnderlineOffset: 4,
+            textTransform: "uppercase",
+          }}
+        >
+          Datenschutz
+        </a>
       </section>
     </main>
   );
