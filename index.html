@@ -33,8 +33,7 @@ body::before {
   z-index: -1;
 }
 
-.box,
-.content {
+.box {
   text-align: center;
   max-width: 460px;
   width: 90%;
@@ -56,7 +55,14 @@ h1 {
   margin-bottom: 34px;
 }
 
-input {
+.subtext {
+  color: rgba(255,255,255,0.68);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: -8px 0 22px;
+}
+
+input[type="email"] {
   width: 100%;
   padding: 15px;
   background: rgba(0,0,0,0.25);
@@ -69,11 +75,11 @@ input {
   letter-spacing: 1px;
 }
 
-input::placeholder {
+input[type="email"]::placeholder {
   color: rgba(255,255,255,0.45);
 }
 
-input:focus {
+input[type="email"]:focus {
   border-color: rgba(255,255,255,0.9);
 }
 
@@ -93,49 +99,118 @@ button:hover {
   background: #d8d8d8;
 }
 
-.content {
-  display: none;
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 14px;
+  text-align: left;
+  color: rgba(255,255,255,0.48);
+  font-size: 11px;
+  line-height: 1.45;
 }
 
-.content p {
+.consent input {
+  margin-top: 2px;
+}
+
+.status {
+  min-height: 18px;
+  margin-top: 16px;
   color: rgba(255,255,255,0.72);
-  line-height: 1.7;
-  font-size: 16px;
+  font-size: 13px;
+}
+
+.hidden {
+  display: none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box" id="loginBox">
+<div class="box">
   <h1>Be Unreadable</h1>
-  <div class="tagline">Data over algorithm</div>
+  <div class="tagline">Identity over Data</div>
 
-  <input type="password" id="password" placeholder="Access code">
-  <button onclick="checkPassword()">Unlock</button>
-</div>
+  <div class="subtext">
+    Early access to the first drop.
+  </div>
 
-<div class="content" id="content">
-  <h1>Be Unreadable</h1>
-  <div class="tagline">Data over algorithm</div>
-  <p>
-    You are not data.<br>
-    You are not a pattern.<br><br>
-    You are what they cannot predict.
-  </p>
+  <form
+    name="early-access"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    id="earlyAccessForm"
+  >
+    <input type="hidden" name="form-name" value="early-access">
+
+    <p class="hidden">
+      <label>
+        Don’t fill this out if you’re human:
+        <input name="bot-field">
+      </label>
+    </p>
+
+    <input
+      type="email"
+      name="email"
+      placeholder="Your email"
+      autocomplete="email"
+      required
+    >
+
+    <button type="submit" id="submitButton">Get Early Access</button>
+
+    <label class="consent">
+      <input type="checkbox" name="email-consent" value="yes" required>
+      <span>
+        I agree to receive launch and early-access emails from Be Unreadable.
+        I can unsubscribe at any time.
+      </span>
+    </label>
+
+    <div class="status" id="formStatus" aria-live="polite"></div>
+  </form>
 </div>
 
 <script>
-function checkPassword() {
-  const input = document.getElementById("password").value;
+const form = document.getElementById("earlyAccessForm");
+const status = document.getElementById("formStatus");
+const button = document.getElementById("submitButton");
 
-  if (input === "unreadable") {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("content").style.display = "block";
-  } else {
-    alert("Wrong access code");
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  button.disabled = true;
+  button.textContent = "Joining...";
+  status.textContent = "";
+
+  try {
+    const formData = new FormData(form);
+
+    const response = await fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams(formData).toString()
+    });
+
+    if (!response.ok) {
+      throw new Error("Submission failed");
+    }
+
+    form.reset();
+    button.textContent = "Joined";
+    status.textContent = "You're in. Early access confirmed.";
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = "Get Early Access";
+    status.textContent = "Something went wrong. Please try again.";
   }
-}
+});
 </script>
 
 </body>
