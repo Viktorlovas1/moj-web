@@ -27,6 +27,7 @@ import type {
 } from "@/lib/shopify";
 
 const CART_STORAGE_KEY = "be-unreadable-cart";
+const PRIVACY_POLICY_URL = "https://beunreadable.myshopify.com/policies/privacy-policy";
 
 function formatMoney(money: Money) {
   return new Intl.NumberFormat("de-DE", {
@@ -281,7 +282,7 @@ export function Storefront({
         </main>
 
         <footer className="store-footer">
-          <a href="/datenschutz">Datenschutz</a>
+          <a href={PRIVACY_POLICY_URL}>Datenschutz</a>
         </footer>
 
         <SheetContent className="cart-panel">
