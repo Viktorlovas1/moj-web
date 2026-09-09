@@ -41,14 +41,14 @@ export function EarlyAccessGate() {
 
   return (
     <main className="cinematic-background" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", padding: "34px 22px 22px" }}>
-      <section aria-labelledby="gate-title" style={{ width: "min(88vw, 430px)", margin: "0 auto", paddingTop: "clamp(88px, 14svh, 150px)", textAlign: "center" }}>
+      <section aria-labelledby="gate-title" style={{ width: "min(88vw, 430px)", margin: "0 auto", paddingTop: "clamp(58px, 8svh, 92px)", textAlign: "center" }}>
         <h1 id="gate-title" style={{ margin: 0, color: "#fff", fontFamily: 'Georgia, "Times New Roman", serif', fontSize: "clamp(42px, 10.5vw, 62px)", fontWeight: 400, letterSpacing: ".025em", lineHeight: 1.02 }}>Be Unreadable</h1>
-        <p style={{ margin: "15px 0 66px", color: "rgba(255,255,255,.58)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 11, letterSpacing: ".34em", textTransform: "uppercase" }}>Identity Over Data</p>
-        <p style={{ margin: "0 0 30px", color: "rgba(255,255,255,.82)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: ".24em", textTransform: "uppercase" }}>Early Access · First Drop</p>
+        <p style={{ margin: "15px 0 88px", color: "rgba(255,255,255,.58)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 11, letterSpacing: ".34em", textTransform: "uppercase" }}>Identity Over Data</p>
+        <p style={{ margin: "0 0 36px", color: "rgba(255,255,255,.82)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: ".24em", textTransform: "uppercase" }}>Early Access · First Drop</p>
         <form onSubmit={submitEarlyAccess}>
           <label className="sr-only" htmlFor="early-access-email">Email address</label>
-          <Input className="gate-input" id="early-access-email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email address" required type="email" value={email} style={{ minHeight: 58, marginBottom: 18, borderColor: "rgba(255,255,255,.26)", background: "rgba(0,0,0,.12)", fontSize: 14 }} />
-          <label style={{ display: "grid", gridTemplateColumns: "18px 1fr", gap: 10, alignItems: "start", margin: "0 2px 26px", color: "rgba(255,255,255,.48)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 10, lineHeight: 1.5, textAlign: "left" }}>
+          <Input className="gate-input" id="early-access-email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email address" required type="email" value={email} style={{ minHeight: 58, marginBottom: 16, borderColor: "rgba(255,255,255,.26)", background: "rgba(0,0,0,.12)", fontSize: 14 }} />
+          <label style={{ display: "grid", gridTemplateColumns: "18px 1fr", gap: 10, alignItems: "start", margin: "0 2px 28px", color: "rgba(255,255,255,.48)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 10, lineHeight: 1.5, textAlign: "left" }}>
             <input checked={consent} name="consent" onChange={(e) => setConsent(e.target.checked)} required type="checkbox" value="yes" style={{ width: 16, height: 16, margin: "1px 0 0" }} />
             <span>I agree to receive Be Unreadable Early Access updates by email.</span>
           </label>
