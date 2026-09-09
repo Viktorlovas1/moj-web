@@ -10,14 +10,33 @@ export function EarlyAccessGate() {
   const [message, setMessage] = useState("");
 
   async function submitEarlyAccess(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); setSubmitting(true); setMessage("");
+    event.preventDefault();
+    setSubmitting(true);
+    setMessage("");
+
     try {
-      const body = new URLSearchParams({ "form-name": "early-access", email, consent: consent ? "yes" : "no" });
-      const response = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() });
+      const body = new URLSearchParams({
+        "form-name": "early-access",
+        email,
+        consent: consent ? "yes" : "no",
+      });
+
+      const response = await fetch("/__forms.html", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+
       if (!response.ok) throw new Error("submit failed");
-      setEmail(""); setConsent(false); setMessage("You're on the Early Access list.");
-    } catch { setMessage("Something went wrong. Please try again."); }
-    finally { setSubmitting(false); }
+
+      setEmail("");
+      setConsent(false);
+      setMessage("You're on the Early Access list.");
+    } catch {
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -47,7 +66,45 @@ export function EarlyAccessGate() {
 export const AccessGate = EarlyAccessGate;
 
 export function SellerAccessGate() {
-  const [code, setCode] = useState(""); const [error, setError] = useState(""); const [submitting, setSubmitting] = useState(false);
-  async function unlock(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setSubmitting(true); setError(""); try { const response = await fetch("/api/access", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) }); if (!response.ok) { const result = (await response.json().catch(() => null)) as { message?: string } | null; setError(result?.message ?? "Wrong access code"); return; } window.location.assign("/shop"); } catch { setError("Access is temporarily unavailable"); } finally { setSubmitting(false); } }
-  return <main className="cinematic-background gate-shell"><section className="gate-box" aria-labelledby="seller-title"><h1 className="brand-title" id="seller-title">Seller Access</h1><p className="brand-tagline">Be Unreadable</p><form onSubmit={unlock}><label className="sr-only" htmlFor="seller-access-code">Access code</label><Input autoComplete="off" className="gate-input" id="seller-access-code" name="access-code" onChange={(e) => setCode(e.target.value)} placeholder="Access code" required type="password" value={code}/><Button className="monochrome-button" disabled={submitting || code.length === 0} type="submit">{submitting ? "Unlocking" : "Enter"}</Button></form><p aria-live="polite" className="gate-error">{error}</p></section></main>;
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  async function unlock(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError("");
+    try {
+      const response = await fetch("/api/access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+      if (!response.ok) {
+        const result = (await response.json().catch(() => null)) as { message?: string } | null;
+        setError(result?.message ?? "Wrong access code");
+        return;
+      }
+      window.location.assign("/shop");
+    } catch {
+      setError("Access is temporarily unavailable");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <main className="cinematic-background gate-shell">
+      <section className="gate-box" aria-labelledby="seller-title">
+        <h1 className="brand-title" id="seller-title">Seller Access</h1>
+        <p className="brand-tagline">Be Unreadable</p>
+        <form onSubmit={unlock}>
+          <label className="sr-only" htmlFor="seller-access-code">Access code</label>
+          <Input autoComplete="off" className="gate-input" id="seller-access-code" name="access-code" onChange={(e) => setCode(e.target.value)} placeholder="Access code" required type="password" value={code}/>
+          <Button className="monochrome-button" disabled={submitting || code.length === 0} type="submit">{submitting ? "Unlocking" : "Enter"}</Button>
+        </form>
+        <p aria-live="polite" className="gate-error">{error}</p>
+      </section>
+    </main>
+  );
 }
