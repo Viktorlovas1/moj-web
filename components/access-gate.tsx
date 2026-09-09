@@ -16,6 +16,7 @@ export function EarlyAccessGate() {
           </p>
           <form name="early-access" method="POST" action="/?submitted=1" data-netlify="true">
             <input type="hidden" name="form-name" value="early-access" />
+            <input type="hidden" name="bot-field" />
             <label className="sr-only" htmlFor="early-access-email">Email address</label>
             <Input
               className="gate-input"
@@ -38,6 +39,8 @@ export function EarlyAccessGate() {
     </main>
   );
 }
+
+export const AccessGate = EarlyAccessGate;
 
 export function SellerAccessGate() {
   const [code, setCode] = useState("");
