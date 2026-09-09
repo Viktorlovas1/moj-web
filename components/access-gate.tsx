@@ -4,6 +4,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export function EarlyAccessGate() {
+  const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+
+  async function submitEarlyAccess(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitting(true);
+    setMessage("");
+    try {
+      const body = new URLSearchParams({
+        "form-name": "early-access",
+        email,
+        consent: consent ? "yes" : "no",
+      });
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+      if (!response.ok) throw new Error("submit failed");
+      setEmail("");
+      setConsent(false);
+      setMessage("You're on the Early Access list.");
+    } catch {
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <main className="cinematic-background gate-shell">
       <section className="gate-box" aria-labelledby="gate-title">
@@ -14,24 +45,25 @@ export function EarlyAccessGate() {
           <p style={{ margin: "0 0 14px", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,.72)" }}>
             Early Access
           </p>
-          <form name="early-access" method="POST" action="/?submitted=1" data-netlify="true">
-            <input type="hidden" name="form-name" value="early-access" />
-            <input type="hidden" name="bot-field" />
+          <form onSubmit={submitEarlyAccess}>
             <label className="sr-only" htmlFor="early-access-email">Email address</label>
             <Input
               className="gate-input"
               id="early-access-email"
               name="email"
+              onChange={(event) => setEmail(event.target.value)}
               placeholder="Email address"
               required
               type="email"
+              value={email}
             />
             <label style={{ display: "flex", gap: 10, alignItems: "flex-start", margin: "0 0 14px", color: "rgba(255,255,255,.6)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 10, lineHeight: 1.5, textAlign: "left" }}>
-              <input name="consent" required type="checkbox" value="yes" style={{ marginTop: 2 }} />
+              <input checked={consent} name="consent" onChange={(event) => setConsent(event.target.checked)} required type="checkbox" value="yes" style={{ marginTop: 2 }} />
               <span>I agree to receive Be Unreadable Early Access updates by email.</span>
             </label>
-            <Button className="monochrome-button" type="submit">Join Early Access</Button>
+            <Button className="monochrome-button" disabled={submitting} type="submit">{submitting ? "Joining" : "Join Early Access"}</Button>
           </form>
+          <p aria-live="polite" className="gate-error">{message}</p>
         </div>
 
         <a className="gate-legal-link" href="/datenschutz">Datenschutz</a>
@@ -77,20 +109,8 @@ export function SellerAccessGate() {
         <p className="brand-tagline">Be Unreadable</p>
         <form onSubmit={unlock}>
           <label className="sr-only" htmlFor="seller-access-code">Access code</label>
-          <Input
-            autoComplete="off"
-            className="gate-input"
-            id="seller-access-code"
-            name="access-code"
-            onChange={(event) => setCode(event.target.value)}
-            placeholder="Access code"
-            required
-            type="password"
-            value={code}
-          />
-          <Button className="monochrome-button" disabled={submitting || code.length === 0} type="submit">
-            {submitting ? "Unlocking" : "Enter"}
-          </Button>
+          <Input autoComplete="off" className="gate-input" id="seller-access-code" name="access-code" onChange={(event) => setCode(event.target.value)} placeholder="Access code" required type="password" value={code} />
+          <Button className="monochrome-button" disabled={submitting || code.length === 0} type="submit">{submitting ? "Unlocking" : "Enter"}</Button>
         </form>
         <p aria-live="polite" className="gate-error">{error}</p>
       </section>
